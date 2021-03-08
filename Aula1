@@ -1,0 +1,40 @@
+Banco de dados
+
+Professor: Jeferson
+
+Tópicos
+    SGBD - Sistema Gerenciador de Banco de Dados (conjunto de ferramentas)
+    Banco de dados Relacional e Não Relacional
+    Atores em cena
+
+Não Relacional
+    NoSQL
+    Ex. MongoDB, CassandraDB
+    Atendem rede sociais, sites de streaming(Netflix) e etc.
+
+Relacional
+    MySQL, Oracle, PostgreSQL
+
+Sistema de informações geográficas(GIS)
+
+Sistemas de data warehousing e de processamento analítico on-line(OLAP)
+    informações pela ferramenta BI
+    Ajuda na tomada de decisão
+
+Structured Query Language (SQL) 
+    Essa linguagem se tornou uma internacional para BD Relacional
+
+Sistemas de Arquivos
+    FAT32, NTFS, Ext2, Ext3, ReiserFS e etc
+
+BD Comuns
+    MySQL, SQL Server, Firebird, Postgre, DB2, Oracle e etc
+
+Diagarama de BD
+    User -> Programas de aplicacao/consulta -> SGBD -> Metadados 
+                                                    -> BD armazenados
+
+SGBD
+    É um conjunto de ferramentas utilizadas para configurar, atualizar e manter um banco de dados
+
+
