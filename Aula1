@@ -41,5 +41,39 @@ SGBD
 Representação conceitual dedados
     Diagarama de MER, DER
 
+BD
+    Cassandra: Facebook
+    BigTable: Google
+    Voldemort: LinkedIn
+    Apache Hadoop: Twitter
+    MongoDB: Engine Yard, foursquare
+
+Exemplo Prático
+    Passo 1: Identificar as Entidades
+        Funcionarios
+        Conjuges
+        Dependentes
+    Passo 2: Atributos de cada Entidades
+        Funcionarios
+            id
+            Nome
+            Profissao
+            Estado Civil
+            dtNascimento
+        Conjuges
+            id
+            Nome
+        Dependentes
+
+    Passo 3: Identificar as instancias das Entidades
+
+    Passo 4: Identificar as cardinalidades
+        Casado 1 - 1
+    
+    Passo 5: Identificar as PK e FK
+
+    Passo 6: Apresentação do Modelo Lógico
+        Mostrar o MER 
+
 
 
