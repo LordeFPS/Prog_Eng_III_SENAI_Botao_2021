@@ -1,2 +1,61 @@
-Fazer um cadastro de filmes
+Fazer um cadastro de filmes Usando DB MySQL
 
+drop table if exists filme;
+/*Criando Tabelas de filme*/
+CREATE TABLE IF NOT EXISTS `mydb`.`filme` (
+  `id_filme` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(200) NOT NULL,
+  `descricao` TEXT NOT NULL,
+  `duracao` VARCHAR(20) NOT NULL,
+  `data_lancamento` DATETIME NOT NULL,
+  `fg_lancamento` INT NOT NULL,
+  `avaliacao` FLOAT NOT NULL,
+  PRIMARY KEY (`id_filme`))
+ENGINE = InnoDB
+
+/*Deleta alguma informação da tabela filme*/
+delete from filme 
+where id_filme >=2;
+
+/*Altera alguma informação da tabela filme*/
+
+
+
+
+update filme
+
+set data_lancamento = '2020-10-10'
+
+where id_filme = 1;
+
+
+
+/*Insere dados dentro da tabela filme*/
+
+insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
+
+values ('Vingadores','Filme de luta','03:00','2020-10-10','1','9,5');
+
+
+
+insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
+
+values ('The Walking Dead','Apocalipse Zumbi','00:50','2021-10-10','1','8');
+
+
+
+insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
+
+values ('Cosmo','Ficção, Científico','02:00','2015-05-05','0','9');
+
+
+
+insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
+
+values ('Minions','Animação dos Minions','02:00','2021-01-12','1','9');
+
+
+
+insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
+
+values ('Dragon Ball','Aventuras do Goku batendo em geral','20:00','1995-05-16','0','10');
