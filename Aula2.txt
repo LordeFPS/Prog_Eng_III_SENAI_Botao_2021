@@ -112,6 +112,10 @@ update filme set id_tipo_filme = 4 /*Anime*/
 
 where id_filme = 8;
 
+/*Adicionando uma condição de Foreign Key*/
+alter table filme add constraint foreign key (id_tipo_filme)
+
+references tipo_filme(id_tipo_filme);
 
 
 
