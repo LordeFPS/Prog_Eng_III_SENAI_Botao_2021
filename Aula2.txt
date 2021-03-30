@@ -13,6 +13,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`filme` (
   PRIMARY KEY (`id_filme`))
 ENGINE = InnoDB
 
+CREATE TABLE IF NOT EXISTS tipo_filme (
+  
+   id_tipo_filme INT NOT NULL AUTO_INCREMENT,
+  
+   nome VARCHAR(100) NOT NULL,
+  
+   PRIMARY KEY (`id_tipo_filme`))
+
+ENGINE = InnoDB;
+
 /*Deleta alguma informação da tabela filme*/
 delete from filme 
 where id_filme >=2;
@@ -59,3 +69,49 @@ values ('Minions','Animação dos Minions','02:00','2021-01-12','1','9');
 insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
 
 values ('Dragon Ball','Aventuras do Goku batendo em geral','20:00','1995-05-16','0','10');
+
+/*Insere informações na tabela tipo_filme*/
+insert into tipo_filme (nome)
+
+values ('Filme'),
+
+('Documentário'),
+
+('Animação'),
+
+('Anime'),
+('Série');
+
+/*Faz uma procura de texto específico dentro da tabela*/
+where descricao like '%fic%';
+
+/*Adicionando uma coluna na tabela filme*/
+alter table filme
+
+add column id_tipo_filme int not null;
+
+/*Altera informações da tabela*/
+
+update filme set id_tipo_filme = 1 /*Filme*/
+
+where id_filme = 1;
+
+update filme set id_tipo_filme = 5 /*Série*/
+
+where id_filme = 5;
+
+update filme set id_tipo_filme = 2 /*Documentario*/
+
+where id_filme = 6;
+
+update filme set id_tipo_filme = 3 /*Animação*/
+
+where id_filme = 7;
+
+update filme set id_tipo_filme = 4 /*Anime*/
+
+where id_filme = 8;
+
+
+
+
