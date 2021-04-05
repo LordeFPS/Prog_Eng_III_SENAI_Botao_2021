@@ -1,0 +1,9 @@
+18:34 05/04/2021
+BackUP atraves de linha de comando
+1 - Achar onde esta baixado o bando de dados
+2 - Abrir cmd: cd C:\xampp\mysql\bin (pasta de exemplo deste PC)
+3 - Criar uma pasta onde seja possivel acessar depois: C:\BackUp
+4 - mysqldump --databases NOME_BANCO > DESTINO/NOME_ARQUIVO.sql -u root -p
+5 - Enter password: (apenas precionar enter)
+6 - O arquivo será criado em C:\BackUp neste caso
+7 - Exemplo: mysqldump --databases filmes > C:\BackUp/bkp_filmes.sql -u root -p
