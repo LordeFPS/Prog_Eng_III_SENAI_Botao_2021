@@ -7,3 +7,10 @@ BackUP atraves de linha de comando no CMD
 5 - Enter password: (apenas precionar enter)
 6 - O arquivo será criado em C:\BackUp neste caso
 7 - Exemplo: mysqldump --databases filmes > C:\BackUp/bkp_filmes.sql -u root -p
+________________________________________________________________]
+Passos para baixar uma tabela no Data Base
+1 - Criar Schema "filmes", nome que quiser
+2 - Charset: utf8mb4
+3 - Collation: utf8mb4_unicode
+4 - 
+Codes SQL
