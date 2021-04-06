@@ -16,4 +16,80 @@ Passos para baixar uma tabela no Data Base
 5 - Abrir o arquivo salvo do BackUp
 6 - Copiar os codes e colar no banco e executar(D:\Gabriel_Botao\Prog_Eng_III\Prog_Eng_III_SENAI_Botao_2021\BackUp SQL\bkp_filmes.sql) "neste caso"
 _________________________________________________________________
-Codes SQL
+Codes SQL Aula 3 19:30 05/04/2021
+
+alter table filme
+
+add column id_cassificacao int not null;
+
+
+Create table tipo_classificacao...
+
+INSERT INTO `tipo_classificacao` (`id_classificacao`, `nome`, `descricao`) 
+VALUES (NULL, 'Livre', 'Qualquer um pode assistir'), 
+(NULL, '12+', 'Acima de 12 anos');
+
+INSERT INTO `tipo_classificacao` (`id_classificacao`, `nome`, `descricao`) 
+VALUES (NULL, '16+', 'Acima de 16 anos');
+
+INSERT INTO `tipo_classificacao` (`id_classificacao`, `nome`, `descricao`) 
+VALUES (NULL, '18+', 'Acima de 18 anos');
+
+/*Criando foreign Key*/
+alter table filme add foreign key (id_classificacao)
+
+references tipo_classificacao(id_classificacao);
+
+/*Criando Categoria de Filmes*/
+CREATE TABLE IF NOT EXISTS categoria_filme  (
+
+id_categoria_filme  INT(11) NOT NULL AUTO_INCREMENT,
+   
+nome  VARCHAR(100) NOT NULL,
+  
+PRIMARY KEY ( id_categoria_filme ))
+
+ENGINE = InnoDB
+
+DEFAULT CHARACTER SET = utf8mb4
+
+COLLATE = utf8mb4_unicode_ci
+
+/*Inserindo tipos de categorias*/
+insert into categoria_filme (nome)
+
+values ('Ação'),
+
+('Aventura'),
+
+('Ficção'),
+
+('Fantasia'),
+
+('Animação'),
+
+('Comédia'),
+
+('Anime');
+
+/*Inserindo as categorias nos filmes*/
+insert into categorias_filmes (id_filme, id_tipo_categoria)
+
+values (2,3),(2,1),(2,4);
+
+/*Altera o nome de campos*/
+alter table tipo_categoria
+change 
+id_categoria_filme id_tipo_categoria int(11) not null auto_increment;
+
+
+/*Criando Foreign Key de categorias*/
+alter table categorias_filmes add foreign key (id_filme)
+
+references filme(id_filme);
+
+
+
+alter table categorias_filmes add foreign key (id_tipo_categoria)
+
+references tipo_categoria(id_tipo_categoria);
