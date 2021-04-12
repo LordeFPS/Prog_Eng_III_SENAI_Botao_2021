@@ -1,0 +1,27 @@
+/*Cria tabela de pessoas*/
+CREATE TABLE IF NOT EXISTS  pessoa  (
+   id_pessoa  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(100) ,
+   nascimento  DATE ,
+   sexo  ENUM('M', 'F') ,
+   email  VARCHAR(200) NOT NULL,
+  PRIMARY KEY ( id_pessoa )
+);
+
+/*Coloca email como unico*/
+alter table pessoa add unique (email);
+
+/*Inserindo dados em pessoa*/
+insert into pessoa (nome, nascimento, sexo, email)
+values('Joe Montana','1969/04/01','M','joe@montana.com'),
+('Pepe Legal','1985/06/01','M','pepe@legal.com'),
+('Kentin Tarantino','1955/01/22','M','kentin@tarantino.com'),
+('Penelope Cruz','1979/05/09','F','penelope@cruz.com'),
+('Xuxa Menegel','1959/01/01','F','xuxa@xuxa.com'),
+('Mara Maravilha','1979/05/09','F','mara@mara.com'),
+('Steven Seagal','1970/04/22','M','mestre@seagal.com'),
+('Didi Mocó','1955/04/30','M','didi@didi.com'),
+('Vin Diesel','1979/12/09','M','vin@diesel.com'),
+('Rita Cadilac','1975/01/01','F','rita@cadilac.com');
+
+
