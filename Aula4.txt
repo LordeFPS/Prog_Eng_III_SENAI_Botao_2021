@@ -53,3 +53,11 @@ references filme(id_filme);
 
 /*Ativar e desavitar foreign key*/
 SET FOREIGN_KEY_CHECKS=1 ou 0;
+
+/*Inserindo id's*/
+insert into pessoa_filme (id_filme, id_pessoa, id_tipo_pessoa)
+values (1,1,1),(1,1,3),(1,2,2),
+(2,3,1),(2,3,2),(2,3,3),(2,4,1),(2,5,1),
+(3,4,1),(4,9,2),
+(4,8,3),
+(5,9,1),(5,9,2),(5,10,1),(5,10,3),(5,6,1),(5,7,1),(5,8,1);
