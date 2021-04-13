@@ -24,4 +24,32 @@ values('Joe Montana','1969/04/01','M','joe@montana.com'),
 ('Vin Diesel','1979/12/09','M','vin@diesel.com'),
 ('Rita Cadilac','1975/01/01','F','rita@cadilac.com');
 
+/*Criando tabela pessoa_filme*/
+CREATE TABLE IF NOT EXISTS `filmes`.`pessoa_filme` (
+  `id_pessoa_filme` INT NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT NULL,
+  `id_filme` INT NULL,
+  `id_tipo` INT NULL,
+  `id_tipo_pessoa` INT NULL,
+  PRIMARY KEY (`id_pessoa_filme`))
+ENGINE = InnoDB
 
+/*Criando tabela tipo_pessoa*/
+CREATE TABLE IF NOT EXISTS `filmes`.`tipo_pessoa` (
+  `id_tipo_pessoa` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NULL,
+  PRIMARY KEY (`id_tipo_pessoa`))
+ENGINE = InnoDB
+
+/*Adicionando foreign key na tabela*/
+alter table pessoa_filme add foreign key (id_tipo_pessoa)
+references tipo_pessoa(id_tipo_pessoa);
+
+alter table pessoa_filme add foreign key (id_pessoa)
+references pessoa(id_pessoa);
+
+alter table pessoa_filme add foreign key (id_filme)
+references filme(id_filme);
+
+/*Ativar e desavitar foreign key*/
+SET FOREIGN_KEY_CHECKS=1 ou 0;
