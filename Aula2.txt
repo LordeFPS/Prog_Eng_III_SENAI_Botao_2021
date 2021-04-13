@@ -23,11 +23,13 @@ CREATE TABLE IF NOT EXISTS tipo_filme (
 
 ENGINE = InnoDB;
 
-/*Deleta alguma informação da tabela filme*/
+/*Deleta alguma informaï¿½ï¿½o da tabela filme*/
 delete from filme 
 where id_filme >=2;
-
-/*Altera alguma informação da tabela filme*/
+
+
+
+/*Altera alguma informaï¿½ï¿½o da tabela filme*/
 
 
 
@@ -43,46 +45,33 @@ where id_filme = 1;
 /*Insere dados dentro da tabela filme*/
 
 insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
-
 values ('Vingadores','Filme de luta','03:00','2020-10-10','1','9,5');
 
-
-
 insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
-
 values ('The Walking Dead','Apocalipse Zumbi','00:50','2021-10-10','1','8');
 
-
+insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
+values ('Cosmo','Ficï¿½ï¿½o, Cientï¿½fico','02:00','2015-05-05','0','9');
 
 insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
-
-values ('Cosmo','Ficção, Científico','02:00','2015-05-05','0','9');
-
-
+values ('Minions','Animaï¿½ï¿½o dos Minions','02:00','2021-01-12','1','9');
 
 insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
-
-values ('Minions','Animação dos Minions','02:00','2021-01-12','1','9');
-
-
-
-insert into filme (nome, descricao, duracao, data_lancamento, fg_lancamento, avaliacao)
-
 values ('Dragon Ball','Aventuras do Goku batendo em geral','20:00','1995-05-16','0','10');
 
-/*Insere informações na tabela tipo_filme*/
+/*Insere informaï¿½ï¿½es na tabela tipo_filme*/
 insert into tipo_filme (nome)
 
 values ('Filme'),
 
-('Documentário'),
+('Documentï¿½rio'),
 
-('Animação'),
+('Animaï¿½ï¿½o'),
 
 ('Anime'),
-('Série');
+('Sï¿½rie');
 
-/*Faz uma procura de texto específico dentro da tabela*/
+/*Faz uma procura de texto especï¿½fico dentro da tabela*/
 where descricao like '%fic%';
 
 /*Adicionando uma coluna na tabela filme*/
@@ -90,13 +79,13 @@ alter table filme
 
 add column id_tipo_filme int not null;
 
-/*Altera informações da tabela*/
+/*Altera informaï¿½ï¿½es da tabela*/
 
 update filme set id_tipo_filme = 1 /*Filme*/
 
 where id_filme = 1;
 
-update filme set id_tipo_filme = 5 /*Série*/
+update filme set id_tipo_filme = 5 /*Sï¿½rie*/
 
 where id_filme = 5;
 
@@ -104,7 +93,7 @@ update filme set id_tipo_filme = 2 /*Documentario*/
 
 where id_filme = 6;
 
-update filme set id_tipo_filme = 3 /*Animação*/
+update filme set id_tipo_filme = 3 /*Animaï¿½ï¿½o*/
 
 where id_filme = 7;
 
@@ -112,7 +101,7 @@ update filme set id_tipo_filme = 4 /*Anime*/
 
 where id_filme = 8;
 
-/*Adicionando uma condição de Foreign Key*/
+/*Adicionando uma condiï¿½ï¿½o de Foreign Key*/
 alter table filme add constraint foreign key (id_tipo_filme)
 
 references tipo_filme(id_tipo_filme);
