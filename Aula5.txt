@@ -1,0 +1,109 @@
+/*Exercicio de banco de dados*/
+/*Criando tabelas*/
+CREATE TABLE IF NOT EXISTS   agencia  (
+   id_agencia  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(50) NULL,
+   cidade  VARCHAR(50) NULL,
+   bairro  VARCHAR(50) NULL,
+  PRIMARY KEY ( id_agencia ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   funcionarios  (
+   id_funcionarios  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(50) NULL,
+   cpf  INT(14) NULL,
+   rg  INT(7) NULL,
+   salario  DOUBLE NULL,
+   cargo  VARCHAR(45) NULL,
+   id_agencia  INT NULL,
+  PRIMARY KEY ( id_funcionarios ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   cliente  (
+   id_cliente  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(50) NULL,
+   cpf  INT(14) NULL,
+   rg  INT(7) NULL,
+   telefone  VARCHAR(45) NULL,
+   celular  VARCHAR(16) NULL,
+   data_nasc  DATE NULL,
+   conta_bancaria  VARCHAR(10) NULL,
+  PRIMARY KEY ( id_cliente ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   conta_cliente  (
+   id_conta_cliente  INT NOT NULL AUTO_INCREMENT,
+   id_cliente  INT NULL,
+   id_agencia  INT NULL,
+   id_tipo_conta  INT NULL,
+   id_historico  INT NULL,
+   id_saldo_cliente  INT NULL,
+  PRIMARY KEY ( id_conta_cliente ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   tipo_conta  (
+   id_tipo_conta  INT NOT NULL AUTO_INCREMENT,
+   tipo_conta  VARCHAR(45) NULL,
+  PRIMARY KEY ( id_tipo_conta ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   historico  (
+   id_historico  INT NOT NULL AUTO_INCREMENT,
+   numero_transacao  INT NULL,
+   transacao  VARCHAR(45) NULL,
+   data  DATE NULL,
+   valor  DOUBLE NULL,
+   saldo_atual  DOUBLE NULL,
+   limite  DOUBLE NULL,
+   id_tipo_transacao  INT NULL,
+  PRIMARY KEY ( id_historico ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   tipo_transacao  (
+   id_tipo_transacao  INT NOT NULL AUTO_INCREMENT,
+   tipo_transacao  VARCHAR(45) NULL,
+  PRIMARY KEY ( id_tipo_transacao ))
+ENGINE = InnoDB;
+
+/*Criando Foreign keys*/
+alter table conta_cliente add foreign key (id_cliente)
+
+references cliente(id_cliente);
+
+alter table conta_cliente add foreign key (id_agencia)
+
+references agencia(id_agencia);
+
+alter table conta_cliente add foreign key (id_tipo_conta)
+
+references tipo_conta(id_tipo_conta);
+
+alter table conta_cliente add foreign key(id_conta_bancaria)
+
+references historico(id_historico);
+alter table funcionarios add foreign key(id_agencia)
+
+references agencia(id_agencia)
+;
+alter table historico add foreign key (id_tipo_transacao)
+
+references tipo_transacao(id_tipo_transacao);
+
+/*Inserindo valores*/
+insert into tipo_conta (tipo_conta) values ('conta correte'),('conta poupança');
+insert into tipo_transacao (tipo_transacao) values ('depósito'),('saque'),('transferência');
+insert into agencia (nome, cidade, bairro) values ('Nubank','São Paulo','itaquera'),
+('Sicredi','Blumenau','centro'),
+('Neon','Curitiba','zona sul');
+insert into funcionarios (nome, cpf, rg, salario, cargo, id_agencia) 
+values ('Gabriel','99999999999','1000000',10000,'Programador', 1),
+('Jorge','10000000000','5555555',15000,'Gerente', 1),
+('Amanda','33333333333','1111111',20000,'CEO', 2),
+('Maria','77777777777','2222222',10000,'Programador', 2),
+('Samuel','66666666666','6666666',5000,'Atendente', 3);
+insert into cliente (nome, cpf, rg, telefone, celular, data_nasc) 
+values ('Juca','12121212122','3232323','(99) 9 9999-9999','(99) 9 9999-9999', '2000/12/14'),
+('Zezinha','45454545455','5454544','(00) 0 0000-0000','(00) 0 0000-0000', '1999/11/13'),
+('Joana','78787878788','6565656','(11) 1 1111-1111','(11) 1 1111-1111', '1998/10/12'),
+('Ana','89898989898','9898988','(22) 2 2222-2222','(22) 2 2222-2222', '1997/09/11'),
+('Samira','32323232232','7474747','(33) 3 3333-3333','(33) 3 3333-3333', '1996/08/10');
