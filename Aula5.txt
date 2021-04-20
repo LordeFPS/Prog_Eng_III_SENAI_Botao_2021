@@ -88,6 +88,8 @@ references agencia(id_agencia)
 alter table historico add foreign key (id_tipo_transacao)
 
 references tipo_transacao(id_tipo_transacao);
+alter table historico add foreign key (id_conta_cliente )
+references conta_cliente(id_conta_cliente );
 
 /*Inserindo valores*/
 insert into tipo_conta (tipo_conta) values ('conta correte'),('conta poupança');
@@ -101,9 +103,3 @@ values ('Gabriel','99999999999','1000000',10000,'Programador', 1),
 ('Amanda','33333333333','1111111',20000,'CEO', 2),
 ('Maria','77777777777','2222222',10000,'Programador', 2),
 ('Samuel','66666666666','6666666',5000,'Atendente', 3);
-insert into cliente (nome, cpf, rg, telefone, celular, data_nasc) 
-values ('Juca','12121212122','3232323','(99) 9 9999-9999','(99) 9 9999-9999', '2000/12/14'),
-('Zezinha','45454545455','5454544','(00) 0 0000-0000','(00) 0 0000-0000', '1999/11/13'),
-('Joana','78787878788','6565656','(11) 1 1111-1111','(11) 1 1111-1111', '1998/10/12'),
-('Ana','89898989898','9898988','(22) 2 2222-2222','(22) 2 2222-2222', '1997/09/11'),
-('Samira','32323232232','7474747','(33) 3 3333-3333','(33) 3 3333-3333', '1996/08/10');
