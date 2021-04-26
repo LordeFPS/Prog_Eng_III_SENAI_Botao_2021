@@ -1,0 +1,84 @@
+create database aula6_prova;
+
+use aula6_prova;
+
+CREATE TABLE IF NOT EXISTS   produtos  (
+   id_produtos  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(45) NULL,
+   descricao  VARCHAR(200) NULL,
+   data_cadastro  datetime default now(),
+   peso  float NULL,
+   categoria  VARCHAR(45) NULL,
+  PRIMARY KEY ( id_produtos ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   fornecedores  (
+   id_fornecedores  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(45) NULL,
+   telefone  VARCHAR(16) NULL,
+   email  VARCHAR(100) NULL,
+   cnpj  BIGINT NULL,
+   rua  VARCHAR(150) NULL,
+   bairro  VARCHAR(100) NULL,
+   cidade  VARCHAR(100) NULL,
+  PRIMARY KEY ( id_fornecedores ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   funcionario  (
+   id_funcionario  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(45) NULL,
+   cargo  VARCHAR(45) NULL,
+   data_admisssao  datetime default now(),
+  PRIMARY KEY ( id_funcionario ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   lote  (
+   id_lote  INT NOT NULL AUTO_INCREMENT,
+   nome  VARCHAR(45) NULL,
+   codigo  VARCHAR(16) NULL,
+   id_fornecedores  INT NULL,
+   data_cadastro  datetime default now(),
+   id_funcionario  INT NULL,
+  PRIMARY KEY ( id_lote ))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS   estoque  (
+   id_estoque  INT NOT NULL AUTO_INCREMENT,
+   id_produto  INT NULL,
+   quantidade  INT NULL,
+   id_lote  INT NULL,
+   valor  FLOAT NULL,
+  PRIMARY KEY ( id_estoque ))
+ENGINE = InnoDB;
+
+alter table estoque add foreign key (id_produtos)
+references produtos(id_produtos);
+
+alter table estoque add foreign key (id_lote)
+references lote(id_lote);
+
+alter table lote add foreign key (id_fornecedores)
+references fornecedores(id_fornecedores);
+
+alter table lote add foreign key (id_funcionario)
+references funcionario(id_funcionario);
+
+insert into produtos (nome, descricao, peso, categoria)
+values ('Mouse Superligth','Lotitech G',0.60,'Gamer'),
+('Keyboard Carbom 13','Lotitech G',2.00,'Gamer'),
+('HyperX Cloud Alpha S Blackout','HyperX',1.00,'Gamer'),
+('Aqual Control Plus+','X-RAY MousePad 50x50mm',0.50,'Gamer'),
+('Monitor Asus','Asus 165hz 0.5ms',3.00,'Gamer');
+
+insert into funcionario (nome, cargo)
+values ('Joaquim','Gerente'),
+('Sergio','Administrador'),
+('Jorge','Atendente'),
+('Samuel','Programador'),
+('Junior','Estagiario');
+
+insert into fornecedores (nome, telefone, email, cnpj, rua, bairro, cidade, cep)
+values ('HyperX','(99) 9 9999-9999','hyperx@email.com', 77777777777 ,'R. jorge','Jorge','Blumenau',87451445),
+('Logitech G','(88) 8 8888-8888','logitech@email.com',55555555555 ,'R. jaoquim','Joaquim','Blumenau',84563214),
+('X-RAY','(77) 7 7777-7777','xray@email.com',22222222222 ,'R. sergio','Sergio','Blumenau',86592444);
+
