@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Abr-2021 às 01:01
+-- Tempo de geração: 04-Maio-2021 às 00:20
 -- Versão do servidor: 10.3.16-MariaDB
 -- versão do PHP: 7.1.30
 
@@ -31,26 +31,24 @@ SET time_zone = "+00:00";
 CREATE TABLE estoque (
   id_estoque int(11) NOT NULL,
   id_produtos int(11) DEFAULT NULL,
-  quantidade int(11) DEFAULT NULL,
-  id_lote int(11) DEFAULT NULL,
-  valor float DEFAULT NULL
+  id_lote int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela estoque
 --
 
-INSERT INTO estoque (id_estoque, id_produtos, quantidade, id_lote, valor) VALUES
-(1, 1, 100, 1, 85000),
-(2, 1, 200, 1, 170000),
-(3, 2, 100, 2, 50000),
-(4, 2, 200, 2, 100000),
-(5, 3, 100, 3, 60000),
-(6, 3, 200, 3, 120000),
-(7, 4, 100, 4, 25000),
-(8, 4, 200, 4, 50000),
-(9, 5, 100, 5, 145000),
-(10, 5, 200, 5, 290000);
+INSERT INTO estoque (id_estoque, id_produtos, id_lote) VALUES
+(1, 1, 1),
+(2, 1, 1),
+(3, 2, 2),
+(4, 2, 2),
+(5, 3, 3),
+(6, 3, 3),
+(7, 4, 4),
+(8, 4, 4),
+(9, 5, 5),
+(10, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -116,19 +114,21 @@ CREATE TABLE lote (
   codigo varchar(16) DEFAULT NULL,
   id_fornecedores int(11) DEFAULT NULL,
   data_cadastro datetime DEFAULT current_timestamp(),
-  id_funcionario int(11) DEFAULT NULL
+  id_funcionario int(11) DEFAULT NULL,
+  quantidade int(11) DEFAULT NULL,
+  valor float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela lote
 --
 
-INSERT INTO lote (id_lote, nome, codigo, id_fornecedores, data_cadastro, id_funcionario) VALUES
-(1, 'Lote Logitech Mouse Superlight', 'LOGIG78965', 2, '2021-04-26 19:50:31', 1),
-(2, 'Lote Logitech Carbon 13', 'LOGIG32658', 2, '2021-04-26 19:50:31', 2),
-(3, 'Lote HyperX Cloud Alpha S', 'HPX25698', 1, '2021-04-26 19:50:31', 3),
-(4, 'Lote X-RAY Aqual Control Plus', 'XRA23698', 3, '2021-04-26 19:50:31', 4),
-(5, 'Lote ASUS Monitor 165hz', 'ASUS26984', 4, '2021-04-26 19:50:31', 5);
+INSERT INTO lote (id_lote, nome, codigo, id_fornecedores, data_cadastro, id_funcionario, quantidade, valor) VALUES
+(1, 'Lote Logitech Mouse Superlight', 'LOGIG78965', 2, '2021-04-26 19:50:31', 1, 100, 85000),
+(2, 'Lote Logitech Carbon 13', 'LOGIG32658', 2, '2021-04-26 19:50:31', 2, 100, 50000),
+(3, 'Lote HyperX Cloud Alpha S', 'HPX25698', 1, '2021-04-26 19:50:31', 3, 100, 60000),
+(4, 'Lote X-RAY Aqual Control Plus', 'XRA23698', 3, '2021-04-26 19:50:31', 4, 100, 25000),
+(5, 'Lote ASUS Monitor 165hz', 'ASUS26984', 4, '2021-04-26 19:50:31', 5, 100, 145000);
 
 -- --------------------------------------------------------
 
@@ -220,7 +220,7 @@ ALTER TABLE funcionario
 -- AUTO_INCREMENT de tabela lote
 --
 ALTER TABLE lote
-  MODIFY id_lote int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY id_lote int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela produtos
