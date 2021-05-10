@@ -1,0 +1,63 @@
+Consultas no Bnado de Dados
+select 
+	e.emp_no empl,
+	
+	e.first_name nome,
+    
+	e.last_name sobrenome,
+    
+	e.gender genero,
+    
+	t.title cargo
+
+from employees e,
+	 
+     titles t
+
+where e.emp_no = t.emp_no
+
+and   e.emp_no = 10005;
+
+
+
+Nome e sexo de todos os funcuinários do sexo
+masculino em ordem descrescente
+
+select 
+	e.first_name nome,
+	
+	e.gender genero
+
+from employees e
+
+where lower(e.gender) like lower('m')
+
+group by e.first_name 
+
+order by e.first_name desc;
+
+Nome e sexo de todos os funcuinários do sexo
+feminino em ordem crescente
+
+select 
+	e.first_name nome,
+	
+	e.gender genero
+
+from employees e
+
+where lower(e.gender) like lower('f')
+
+group by e.first_name
+
+order by e.first_name;
+
+Nome de todos os cargos que começam com S
+select 
+	e.first_name nome,    
+
+	e.gender genero
+
+from employees e
+
+where lower(e.first_name) like lower('s%');
