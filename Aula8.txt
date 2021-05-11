@@ -1,0 +1,314 @@
+----- Comando de pesquias -----
+Será usado uma tabela de DB do site do MySQL
+chamada employees-database
+________________________________
+SELECT
+	
+	<CAMPOS TABELAS>
+
+FROM
+	
+	<DE QUAIS TABELAS>
+
+WHERE
+	
+	<REGRAS, FILTROS>
+
+GROUP BY
+	
+	<AGRUPAMENTO>
+
+ORDER BY
+	
+	<OERDENAÇÃO>
+________________________________
+/* Trazer o ID, nome e sobrenome dos empregados*/
+SELECT
+	
+	e.emp_no ID,
+    
+	e.first_name nome,
+    
+	e.last_name sobrenome
+
+FROM employees e;
+
+/*Função para concatenar os textos*/
+SELECT
+	
+	e.emp_no ID,
+    
+	concat(e.first_name , ' ', e.last_name) Nome
+
+FROM employees e;
+
+/*Juntando tabelas*/
+SELECT
+	
+	e.emp_no ID,
+    
+	concat(e.first_name , ' ', e.last_name) Nome,
+	
+	s.*
+
+FROM employees e,
+	 
+     salaries s
+
+where e.emp_no = s.emp_no
+
+group by e.first_name;
+
+/*Contando as quantidades de registros  no select de cima */
+select count(*) from
+
+(
+
+SELECT
+	
+	e.emp_no ID,
+    
+	concat(e.first_name , ' ', e.last_name) Nome,
+	
+	s.*
+
+FROM employees e,
+	 
+     salaries s
+
+where e.emp_no = s.emp_no
+
+group by e.first_name
+
+) as a;
+
+/* Usando Between */
+
+SELECT
+	
+	e.emp_no ID,
+    
+	concat(e.first_name , ' ', e.last_name) Nome,
+	
+	s.*
+    
+
+FROM employees e,
+	 
+     salaries s
+
+where e.emp_no = s.emp_no
+
+and   s.salary between 90000 and 100000;
+
+/* Descobrindo dias trabalhos */
+SELECT
+	e.emp_no ID,
+    
+	concat(e.first_name , ' ', e.last_name) Nome,
+	
+	datediff(date(s.to_date), date(s.from_date)) 'dias trabalhos',
+    
+	count(*) Salarios,
+    
+	sum(s.salary) 'Tota ganho'
+
+FROM employees e,
+	 
+     salaries s
+
+where e.emp_no = s.emp_no
+
+-- and   s.salary between 90000 and 100000
+
+and	 e.emp_no = 10024;
+
+/* Somando o salario de mais de uma pessoa */
+SELECT
+	
+	e.emp_no ID,
+    
+	concat(e.first_name , ' ', e.last_name) Nome,
+    
+	s.from_date,
+    
+	s.to_date ,
+	
+	(datediff(date(s.to_date), date(s.from_date))) 'dias trabalhos',
+    
+	count(*) Salarios,
+    
+	sum(s.salary) 'Tota ganho'
+
+FROM 	
+	employees e,
+	 
+	salaries s
+
+where 	e.emp_no = s.emp_no
+
+and	e.emp_no in (10001, 10002, 10003,
+10004,
+ 10005,10006,10007,10008,10009,10010)
+
+group by e.first_name;
+
+/* Somando todos os dias trabalhados e total de salario ganho nesses dias */
+SELECT
+	e.emp_no ID,
+	
+	concat(e.first_name , ' ', e.last_name) Nome,
+	
+	s.from_date,
+	
+	max(s.to_date) ,
+	
+	sum(datediff(date(s.to_date), 
+	date(s.from_date))) 'dias trabalhos',
+	
+	count(*) Salarios,
+	
+	sum(s.salary) 'Tota ganho'
+
+FROM employees e,
+	 
+     salaries s
+
+where e.emp_no = s.emp_no
+
+and	e.emp_no in (10001)
+
+-- ,10002, 10003,10004,10005,10006,10007,10008,10009,10010)
+group by e.first_name;
+
+/* ID, NOME COMPLETO, SALARIO E DATA DE NASCIMENTO 
+DE TODOS OS
+   FUNCIONARIOS COM SALÁRIO ENTRE 70000 E 90000. 
+QUEM SEJAM DO SEXO FEMININO	
+*/
+
+select 
+	
+	e.emp_no ID,
+    
+	concat(e.first_name,' ',e.last_name) Nome,
+    
+	e.birth_date Nascimento,
+    
+	s.salary Salario,
+    
+	e.gender Genero
+
+from employees e,
+	 
+     salaries s
+
+where e.emp_no = s.emp_no
+
+and e.gender = 'F'
+
+and s.salary between 70000 and 90000;
+
+/*
+ID, NOME COMPLETO DE TODOS OS FUNCIONARIOS
+    
+DO SEXO MASCULINO, QUE NO EU NOME OU SOBRENOME CONTENHA
+    
+A PALAVRA ken
+*/
+
+select
+	
+	e.emp_no ID,
+    
+	concat(e.first_name, ' ',e.last_name) Nome
+
+from employees e
+
+where e.gender = 'M'
+
+and   concat(e.first_name, ' ',e.last_name) like '%ken%';
+
+/*
+NOME DO FUNCIONARIO E SEUS CARGOS COM DATA DE INICIO E TERMINO
+    
+FORMATADAS NO PADRÃO DO BRASIL
+*/
+
+select
+	concat(e.first_name,' ',e.last_name) Nome,
+    
+	t.title Cargo,
+    
+	date_format(t.from_date, '%d/%m/%Y') 'Data inicio',
+    
+	replace(date_format(t.to_date, '%d/%m/%Y'), '01/01/9999', 'continua') 'Data fim'
+
+from employees e,
+	 
+     titles t
+
+where e.emp_no = t.emp_no;
+
+/* Juntanto todos os departamentos */
+select
+	
+	concat(e.first_name,' ',e.last_name) Nome,
+    
+	d.dept_name Departamento,
+    
+	date_format(de.from_date, '%d/%m/%Y') 'Data inicio',
+    
+	date_format(de.to_date, '%d/%m/%Y') 'Data fim'
+
+from employees e,
+	 
+     dept_emp de,
+	 
+     departments d,
+     
+     dept_manager dm
+
+where e.emp_no = de.emp_no
+
+and   de.dept_no = d.dept_no
+
+and	  e.emp_no = dm.emp_no
+
+and   dm.dept_no = d.dept_no
+
+order by d.dept_name;
+
+/* 
+NOME COMPLETO, DATA DE CONTRATACAO E CARGO DE TODOS
+	
+OS FUNCIONARIOS QUE FORAM CONTRATADOS NO ANO 2000
+*/
+
+select
+	concat(e.first_name, e.last_name),
+    
+	e.hire_date Admissao,
+    
+	t.title
+from employees e,
+	 
+	titles t
+
+where e.emp_no = t.emp_no
+
+and date_format(e.hire_date, '%Y') = 2000;
+
+/* 
+NOME COMLETO, IDADE E CARGO DE TODOS OS FUNCIONARIOS QUE
+	
+NASCERAM ENTRE 01/01/1970 E 31/12/1980
+*/
+ (continuar)
+
+select 
+	concat(e.first_name, e.last_name) Nome,
+    
+	datediff(date('2021-10-05'), date(e.birth_date)) Data
+
+from employees e;
