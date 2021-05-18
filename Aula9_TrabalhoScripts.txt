@@ -1,0 +1,59 @@
+relatorio pedido:
+select 
+	v.nome vendedor,
+    
+	p.cliente,
+    
+	p.data_pedido
+
+from pedido p,
+     vendedor v
+
+where p.id_vendedor = v.id_vendedor;
+
+relatorio pedido de um vendedor:
+select 
+	v.nome vendedor,
+    
+	p.cliente,
+    
+	p.data_pedido
+
+from pedido p,
+	 
+     vendedor v
+
+where p.id_vendedor = v.id_vendedor
+
+and v.id_vendedor = 1;
+
+relatorio pedido de um cliente;
+select 
+	v.nome vendedor,
+    
+	p.cliente,
+    
+	p.data_pedido
+
+from pedido p,
+	 
+     vendedor v
+
+where p.id_vendedor = v.id_vendedor
+
+and p.id_pedido = 1;
+
+relatorio dos vendedores com as comissoes;
+select 
+	v. nome vendedor,
+    
+	d.nome departamento,
+    
+	v.comissao
+from vendedor v,
+	 
+	dpto d
+where v.id_dpto = d.id_dpto
+
+order by v.comissao desc;
+

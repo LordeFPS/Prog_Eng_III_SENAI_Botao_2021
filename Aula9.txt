@@ -1,0 +1,133 @@
+insert into dpto (nome)
+
+values ('Departamento 01'),
+
+('Departamento 02'),
+
+('Departamento 03');
+
+
+
+insert into vendedor (nome,id_dpto,comissao)
+
+values ('Jorge','1', 0),
+
+('Janaina','1', 0),
+
+('Valdis','2', 0),
+
+('Brisa','2', 0),
+
+('Camarao','3', 0);
+
+
+
+insert into categoria(nome)
+
+values ('Material Escolar'),('Material de escritório'),('Livros e revistas');
+
+insert into item(nome,cod_analfa,quantidade_estoque,valor_unit, id_dpto, id_categoria)
+
+values ('Lápis','A123', 10, 5, 1, 1),
+('Borracha','B123', 10, 5, 1, 1),
+('Caneta','C123', 10, 5, 1, 1),
+('Penal','D123', 10, 5, 1, 1),
+('Corretivo','E123', 10, 5, 1, 1),
+('Régua','F123', 10, 5, 1, 1),
+('Caderno','G123', 10, 5, 1, 1),
+('Transferidor','H123', 10, 5, 1, 1),
+('Claculadora','I123', 10, 5, 1, 1),
+('Mochila','J123', 10, 5, 1, 1),
+
+
+('Computador','A321', 10, 50, 2, 2),
+('Notecooke','B321', 10, 50, 2, 2),
+('Teclado','C321', 10, 50, 2, 2),
+('Mouse','D321', 10, 50, 2, 2),
+('Monitor','E321', 10, 50, 2, 2),
+('Mouse Pad','F321', 10, 50, 2, 2),
+('Cabo de Rede','G321', 10, 50, 2, 2),
+('Cabo HDMI','H321', 10, 50, 2, 2),
+('Modem','I321', 10, 50, 2, 2),
+('Gabinete','J321', 10, 50, 2, 2),
+
+
+('Harry Potter 1','A456', 10, 15, 3, 3),
+('Harry Potter 2','B456', 10, 15, 3, 3),
+('Harry Potter 3','C456', 10, 15, 3, 3),
+('Harry Potter 4','D456', 10, 15, 3, 3),
+('Harry Potter 5','E456', 10, 15, 3, 3),
+('As Armas da Persuasão','F456', 10, 15, 3, 3),
+('Pai rico Pai pobre','G456', 10, 15, 3, 3),
+('Veja','H456', 10, 15, 3, 3),
+('PlayBoy','I456', 10, 15, 3, 3),
+('Brasileirinhas','J456', 10, 15, 3, 3);
+
+insert into pedido (id_vendedor, cliente)
+
+values ('1','Joel'),('1','Tomas'),
+
+('2','Ivonete'),('2','Ricardo'),
+
+('3','Jonas'),('3','Tamara'),
+
+('4','Ademir'),('4','Gersi'),
+
+('5','Brisa'),('5','Kaua');
+
+
+insert into pedido_item (id_item, id_pedido, quantidade, valor_unit)
+
+values ('1','1', 10, 5),
+('2','2', 10, 5),
+
+('3','3', 10, 10),
+('4','4', 10, 10),
+
+('17','5', 10, 50),
+('18','6', 10, 50),
+
+('19','7', 10, 60),
+('20','8', 10, 60),
+
+('26','9', 10, 15),
+('27','10', 10, 15);
+
+
+relatorio pedido:
+select 
+	v.nome vendedor,
+    p.cliente,
+    p.data_pedido
+from pedido p,
+
+relatorio pedido de um vendedor:
+select 
+	v.nome vendedor,
+    p.cliente,
+    p.data_pedido
+from pedido p,
+	 vendedor v
+where p.id_vendedor = v.id_vendedor
+and v.id_vendedor = 1;
+
+relatorio pedido de um cliente;
+select 
+	v.nome vendedor,
+    p.cliente,
+    p.data_pedido
+from pedido p,
+	 vendedor v
+where p.id_vendedor = v.id_vendedor
+and p.id_pedido = 1;
+
+relatorio dos vendedores com as comissoes;
+select 
+	v. nome vendedor,
+    d.nome departamento,
+    v.comissao
+from vendedor v,
+	 dpto d
+where v.id_dpto = d.id_dpto
+order by v.comissao desc;
+
