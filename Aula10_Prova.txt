@@ -1,0 +1,301 @@
+create database aula10_prova;
+
+
+use aula10_prova;
+
+CREATE TABLE IF NOT EXISTS cliente (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+nome VARCHAR(45) NULL,
+  
+celular varchar(20) NULL,
+  
+id_endereco VARCHAR(50) NULL,
+  
+sexo char NULL,
+  
+cpf bigint NULL,
+  
+PRIMARY KEY (id));
+  
+  
+
+CREATE TABLE IF NOT EXISTS endereco (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+rua VARCHAR(100) NULL,
+  
+numero int NULL,
+  
+complemento VARCHAR(50) NULL,
+  
+bairro VARCHAR(50) NULL,
+  
+id_cidade int NULL,
+  
+PRIMARY KEY (id));
+  
+  
+
+CREATE TABLE IF NOT EXISTS cidade (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+nome VARCHAR(50) NULL,
+  
+id_estado int NULL,
+  
+PRIMARY KEY (id));
+  
+  
+
+CREATE TABLE IF NOT EXISTS estado (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+nome VARCHAR(45) NULL,
+  
+PRIMARY KEY (id));
+  
+  
+
+CREATE TABLE IF NOT EXISTS locacao (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+id_cliente int NULL,
+  
+data datetime default now() NULL,
+  
+quilometro_atual float NULL,
+  
+quilometro_final float NULL,
+  
+descricao VARCHAR(150) NULL,
+  
+id_automovel int NULL,
+  
+PRIMARY KEY (id));
+  
+  
+
+CREATE TABLE IF NOT EXISTS automovel (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+marca VARCHAR(50) NULL,
+  
+modelo VARCHAR(100) NULL,
+  
+ano int NULL,
+  
+cor VARCHAR(45) NULL,
+  
+id_tipo_veiculo int NULL,
+  
+PRIMARY KEY (id));
+  
+  
+
+CREATE TABLE IF NOT EXISTS tipo_veiculo (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+nome VARCHAR(50) NULL,
+  
+PRIMARY KEY (id));
+  
+  
+
+CREATE TABLE IF NOT EXISTS valor_quilometro (
+  
+id INT NOT NULL AUTO_INCREMENT,
+  
+codigo int NULL,
+  
+valor_quilometro_rodado float NULL,
+  
+id_tipo_veiculo int NULL,
+  
+PRIMARY KEY (id));
+
+
+alter table cliente add constraint fk_clnt_endereco 
+
+foreign key (id_endereco) references endereco(id);
+
+
+
+alter table endereco add constraint fk_edrc_cidade 
+
+foreign key (id_cidade) references cidade(id);
+
+
+
+alter table cidade add constraint fk_cdde_estado
+
+foreign key (id_estado) references estado(id);
+
+alter table valor_quilometro add constraint fk_vlquil_tipo_veiculo
+
+foreign key (id_tipo_veiculo) references tipo_veiculo(id);
+
+
+
+alter table automovel add constraint fk_atmv_tipo_veiculo
+
+foreign key (id_tipo_veiculo) references tipo_veiculo(id);
+
+
+
+alter table locacao add constraint fk_lcao_automovel
+
+foreign key (id_automovel) references automovel(id);
+
+
+
+alter table locacao add constraint fk_lcao_cliente
+
+foreign key (id_cliente) references cliente(id);
+
+insert estado (nome)
+
+value ('SC'),('PR'),('RS');
+
+
+
+insert cidade (nome, id_estado)
+
+value ('Blumenau', 1),('Florianopolis', 1),
+
+('Curitiba', 2),('Uião da Vitória', 2),
+
+('Jorgina', 3),('Capotaria', 3);
+
+
+
+insert endereco (rua, numero, complemento, bairro, id_cidade)
+
+value ('Rua Teresopolis', 100, 'casa', 'Itoupava Seca', 1),
+
+('Rua Nagara', 101, 'casa', 'Flores', 2),
+
+('Rua Curitibanos', 102, 'casa', 'Curita', 3),
+
+('Rua Dom Pedro', 103, 'casa', 'Vitoria', 4),
+
+('Rua Rebeldia', 104, 'casa', 'Rendondo', 5),
+
+('Rua Capote', 105, 'casa', 'Caruari', 6),
+
+('Rua São Paulo', 106, 'casa', 'Centro', 1),
+
+('Rua Foncesa', 107, 'casa', 'Centro', 2),
+
+('Rua Anapolis', 108, 'casa', 'Centro', 3),
+
+('Rua Alves', 109, 'casa', 'Centro', 4);
+
+
+
+insert cliente (nome, celular, id_endereco, sexo, cpf)
+
+value ('Jorge', '(11) 1 1111-1111', 1, 'M', 11111111111),
+
+('Joana', '(22) 2 2222-2222', 2, 'F', 22222222222),
+
+('Ana', '(33) 3 3333-3333', 3, 'F', 33333333333),
+
+('Joaquim', '(44) 4 4444-4444', 4, 'M', 44444444444),
+
+('Roberto', '(55) 5 5555-5555', 5, 'M', 55555555555),
+
+('Sergio', '(66) 6 6666-6666', 6, 'M', 66666666666),
+
+('Luana', '(77) 7 7777-7777', 7, 'F', 77777777777),
+
+('Maria', '(88) 8 8888-8888', 8, 'F', 88888888888),
+
+('Rebeca', '(99) 9 9999-9999', 9, 'F', 99999999999),
+
+('João', '(00) 0 0000-0000', 10, 'M', 10000110101);
+
+
+
+insert tipo_veiculo (nome)
+
+value ('Passeio 1.0'),('Passeio 1.6+'),
+('Utilitário'),('Van');
+
+
+
+insert valor_quilometro (codigo, valor_quilometro_rodado, id_tipo_veiculo)
+
+value (1, 0.30, 1),(2, 0.50, 2),
+(3, 1.10, 3),(4, 1.30, 4);
+
+
+
+insert  automovel (marca, modelo, ano, cor, id_tipo_veiculo)
+
+value ('Mercedes Benz', 'A0001', 2021, 'Preto', 1),
+
+('Chevrollete', 'A0002', 2021, 'Preto', 2),
+
+('Volkwagen', 'A0003', 2021, 'Preto', 3),
+
+('Bugati', 'A0004', 2021, 'Preto', 4),
+
+('BMW', 'A0005', 2021, 'Preto', 1),
+
+('Tesla', 'A0006', 2021, 'Preto', 2),
+
+('Volvo ', 'A0007', 2021, 'Preto', 3),
+
+('Renault', 'A0008', 2021, 'Preto', 4),
+
+('Ford', 'A0009', 2021, 'Preto', 1),
+
+('Ferrari', 'A0010', 2021, 'Preto', 2);
+
+
+
+insert locacao (id_cliente, quilometro_atual, quilometro_final, descricao, id_automovel)
+
+value (1, 1, 11, 'Limpo', 1),
+
+(2, 1, 20, 'Limpo', 2),
+
+(3, 1, 15, 'Limpo', 3),
+
+(4, 1, 11, 'Limpo', 4),
+
+(5, 1, 10, 'Limpo', 5),
+
+(6, 1, 50, 'Limpo', 6),
+
+(7, 1, 55, 'Limpo', 7),
+
+(8, 1, 100, 'Limpo', 8),
+
+(9, 1, 55, 'Limpo', 9),
+
+(10, 1, 40, 'Limpo', 10),
+
+(1, 1, 30, 'Limpo', 1),
+
+(2, 1, 90, 'Limpo', 2),
+
+(3, 1, 80, 'Limpo', 3),
+
+(4, 1, 101, 'Limpo', 4),
+
+(5, 1, 15, 'Limpo', 5);
+
+
+
+
+
+

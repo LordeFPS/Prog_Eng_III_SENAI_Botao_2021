@@ -1,0 +1,93 @@
+Questão 3.a
+select
+	
+	c.nome 'Cliente',
+    
+	date_format(l.data, '%d/%m/%y ') Data,   
+	a.marca marca,
+    
+	a.modelo modelo,
+    
+	concat(l.quilometro_final - l.quilometro_atual,' Km') 'Km Total',
+    
+	concat('R$ ', format(((l.quilometro_final - l.quilometro_atual) * vq.valor_quilometro_rodado),2)) 'Valor Pago'
+
+from locacao 
+l
+inner join cliente c on l.id_cliente = c.id
+
+inner join automovel a on l.id_automovel = a.id
+
+inner join tipo_veiculo tv on a.id_tipo_veiculo = tv.id
+
+inner join valor_quilometro vq on vq.id_tipo_veiculo = tv.id;
+
+Questao 3.b
+select
+	
+	l.id Codigo,
+    
+	a.marca marca,
+    
+	a.modelo modelo,
+    
+	date_format(l.data, '%d/%m/%y ') Data,
+     
+	concat(l.quilometro_final - l.quilometro_atual,' Km') 'Km Total'
+
+from locacao l
+
+inner join automovel a on l.id_automovel = a.id;
+
+Questao 3.c
+select
+	
+	c.nome Cliente,
+    
+	c.cpf CPF,
+    
+	c.celular Celular,
+    
+	cdd.nome Cidade,
+    
+	est.nome Estado,
+	
+	count(l.id_cliente) as 'Locacoes'
+
+from cliente c
+
+inner join endereco e on c.id_endereco = e.id
+
+inner join cidade cdd on e.id_cidade = cdd.id
+
+inner join estado est on cdd.id_estado = est.id
+
+inner join locacao l on c.id = l.id_cliente
+
+group by c.nome;
+
+
+Questao 3.d
+select
+	
+	c.nome Cliente,
+    
+	c.cpf CPF,
+    
+	c.celular Celular,
+    
+	cdd.nome Cidade,
+    
+	est.nome Estado
+
+from cliente c
+
+inner join endereco e on c.id_endereco = e.id
+
+inner join cidade cdd on e.id_cidade = cdd.id
+
+inner join estado est on cdd.id_estado = est.id
+
+where est.nome = 'SC'
+
+order by cdd.nome asc;
