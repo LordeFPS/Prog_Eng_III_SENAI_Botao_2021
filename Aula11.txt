@@ -1,0 +1,99 @@
+insert into cor (nome)
+
+values ('PRETO'),('BRANCO'),('CINZA'),
+('VERMELHO'),('MARROM'),
+('LARANJA'),
+('AMARELO'),('ROSA'),('AZUL'),('ROXO');
+
+______________________________________________
+
+
+insert into marca (nome)
+
+values ('Mercedes Benz'),('Toyota'),('Ford'),
+('Chevrolet'),('Tesla'),
+('Volkswagen'),('BMW'),
+('Honda'),('Hyunday'),('Jeep');
+
+______________________________________________
+
+
+insert into modelo (nome, id_marca)
+
+values ('AMG A 45 S',1),('Corola',2),('Focus',3),
+('Onix',4),('Model S',5),
+('Polo',6),('320i Sport',7),
+('Civic',8),('HB20',9),('Compass',10);
+
+______________________________________________
+insert into tipo_veiculo (nome, vl_km_rodado)
+
+values ('Passeio 1.0',0.3),('Passeio 1.6+',0.5),
+('Utilitário',1.1),('Van',1.3);
+______________________________________________
+insert into cliente (nome, celular, logradouro, numero, bairro, id_cidade, sexo, cpf)
+
+values ('Jorge', '(00) 0 0000-0000', 'Rua Dadunha', 123, 'Doideros', 1, 'M', '10001001010'),
+
+('Samuel', '(11) 1 1111-1111', 'Rua Segonha', 321, 'Satoru', 2, 'M', '11111111111'),
+
+('Joao', '(22) 2 2222-2222', 'Rua Veroa', 763, 'Veraneio', 3, 'M', '22222222222'),
+
+('Emerson', '(33) 3 3333-3333', 'Rua Mermuras', 823, 'Mermudas', 4, 'M', '33333333333'),
+
+('Sergio', '(44) 4 4444-4444', 'Rua Setinha', 133, 'Doideros', 5, 'M', '44444444444'),
+
+('Paulo', '(55) 5 5555-5555', 'Rua Senhora', 123, 'Doideros', 6, 'M', '55555555555'),
+
+('Vinicius', '(66) 6 6666-6666', 'Rua Ramiro', 323, 'Centro', 7, 'M', '66666666666'),
+
+('Vitor', '(77) 7 7777-7777', 'Rua Ganjo', 156, 'Ganjeira', 8, 'M', '77777777777'),
+
+('Lucas', '(88) 8 8888-8888', 'Rua Sao Paulo', 143, 'Velha', 9, 'M', '88888888888'),
+
+('Ian', '(99) 9 9999-9999', 'Rua Amazonas', 642, 'Itoupava Seca', 10, 'M', '99999999999'),
+
+('Thomas', '(12) 1 2121-1212', 'Rua Shietes', 726, 'Agua verde', 11, 'M', '12121212122'),
+
+('Gabriel', '(21) 2 2121-2121', 'Rua Terezinha', 583, 'Centro', 12, 'M', '21542154214'),
+
+('Ramos', '(31) 3 3131-3131', 'Rua Jujuba', 864, 'Todinho', 13, 'M', '65489654891'),
+
+('Matheus', '(87) 8 8787-8787', 'Rua Doiderea', 553, 'Sentidos', 14, 'M', '32654987265'),
+
+('Felipe', '(65) 6 6565-6565', 'Rua Gororua', 823, 'Agua Velha', 15, 'M', '66555998656');
+______________________________________________
+insert into veiculo (id_modelo, ano, id_cor, id_tipo_veiculo)
+
+values (1,2021,1,2),(2,2021,2,1),(3,2021,3,3),
+(4,2021,4,4),(5,2021,5,1),
+(6,2021,6,2),
+(7,2021,7,3),(8,2021,8,4),(9,2021,9,1),
+(10,2021,10,2);
+______________________________________________
+insert into locacao (id_cliente,datahora,km_atual,km_final, descricao, id_veiculo)
+
+values (1,now(),100,200,'Limpo',1),
+(2,now(),100,300,'Limpo',2),
+(3,now(),100,400,'Limpo',3),
+(4,now(),100,500,'Limpo',4),
+(5,now(),100,200,'Limpo',5),
+
+(6,now(),100,600,'Limpo',6),
+(7,now(),100,300,'Limpo',7),
+(8,now(),100,800,'Limpo',8),
+(9,now(),100,900,'Limpo',9),
+(10,now(),100,1000,'Limpo',10),
+
+(11,now(),100,200,'Limpo',1),
+(12,now(),100,400,'Limpo',2),
+(13,now(),100,500,'Limpo',3),
+(14,now(),100,600,'Limpo',4),
+(15,now(),100,200,'Limpo',5),
+
+(1,now(),100,200,'Limpo',5),
+(2,now(),100,300,'Limpo',4),
+(3,now(),100,400,'Limpo',3),
+(4,now(),100,500,'Limpo',2),
+(5,now(),100,200,'Limpo',1);
+______________________________________________
