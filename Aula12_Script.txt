@@ -1,0 +1,203 @@
+-- Letra a
+
+select 
+	
+	c.nome,
+    
+	date_format(l.DATAHORA,'%d/%m/%Y') data,
+    
+	mc.nome,
+    
+	md.nome,
+    
+	concat((l.KM_FINAL - l.KM_ATUAL),' KM') 'KM Percorrido',
+    
+	concat('R$ ',((l.KM_FINAL - l.KM_ATUAL)*tv.VL_KM_RODADO)) 'Valor por KM'
+
+from locacao l
+
+inner join cliente c on c.id_cliente = l.id_cliente
+
+inner join veiculo v on v.id_veiculo = l.id_veiculo
+
+inner join modelo md on md.id_modelo = v.ID_MODELO
+
+inner join marca mc on mc.ID_MARCA = md.ID_MARCA
+
+inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.id_tipo_veiculo;
+
+
+
+-- Letra b
+
+select 
+	
+	l.ID_LOCACAO Identificador,
+    
+	mc.NOME,
+    
+	md.NOME,
+    
+	date_format(l.DATAHORA,'%d/%m/%Y') data,
+    
+	concat((l.KM_FINAL - l.KM_ATUAL),' KM') 'KM Percorrido'
+
+from locacao l
+
+inner join veiculo v on v.id_veiculo = l.id_veiculo
+
+inner join modelo md on md.id_modelo = v.ID_MODELO
+
+inner join marca mc on mc.ID_MARCA = md.ID_MARCA
+
+order by l.ID_LOCACAO asc;
+
+
+
+
+-- Letra c
+
+select 
+	
+	c.nome,
+    
+	c.CPF,
+    
+	c.CELULAR,
+    
+	cd.NOME,
+    
+	e.SIGLA,
+    
+	count(l.ID_CLIENTE) 'Locacoes'
+
+from locacao l
+
+inner join cliente c on c.id_cliente = l.id_cliente
+
+inner join cidade cd on cd.ID_CIDADE = c.ID_CIDADE
+
+inner join estado e on e.ID_ESTADO = cd.ID_ESTADO
+
+group by c.ID_CLIENTE;
+
+
+
+-- Letra d
+
+select 
+	
+	c.nome,
+    
+	c.CPF,
+    
+	c.CELULAR,
+    
+	cd.NOME,
+    
+	e.SIGLA
+
+from locacao l
+
+inner join cliente c on c.id_cliente = l.id_cliente
+
+inner join cidade cd on cd.ID_CIDADE = c.ID_CIDADE
+
+inner join estado e on e.ID_ESTADO = cd.ID_ESTADO
+
+where e.SIGLA = upper('SC')
+order by cd.NOME;
+
+
+
+-- Letra e
+
+select 
+    
+	mc.nome Marca,
+    
+	md.nome Modelo,
+    
+	v.ANO Ano,
+    
+	cr.NOME Cor,
+    
+	tv.NOME 'Tipo Veiculo',
+    
+	concat('R$ ', tv.VL_KM_RODADO)
+
+from locacao l
+
+inner join cliente c on c.id_cliente = l.id_cliente
+
+inner join veiculo v on v.id_veiculo = l.id_veiculo
+
+inner join cor cr on cr.id_cor = v.id_cor
+
+inner join modelo md on md.id_modelo = v.ID_MODELO
+
+inner join marca mc on mc.ID_MARCA = md.ID_MARCA
+
+inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.id_tipo_veiculo;
+
+
+
+-- Letra f
+
+select 
+	
+	cd.NOME Cidade,
+    
+	count(c.ID_CLIENTE) 'Cliente por Cidade'
+
+from locacao l
+
+inner join cliente c on c.id_cliente = l.id_cliente
+
+inner join cidade cd on cd.ID_CIDADE = c.ID_CIDADE
+
+group by c.ID_CLIENTE;
+
+
+
+-- Letra g
+
+select 
+	
+	e.NOME Estado,
+    
+	count(c.ID_CLIENTE) 'Cliente por Estadp'
+
+from locacao l
+
+inner join cliente c on c.id_cliente = l.id_cliente
+
+inner join cidade cd on cd.ID_CIDADE = c.ID_CIDADE
+
+inner join estado e on e.ID_ESTADO = cd.ID_ESTADO
+
+group by e.ID_ESTADO;
+
+
+
+-- Letra h
+
+select 
+	
+	tv.NOME 'Tipo Veiculo',
+    
+	convert(concat(sum(l.KM_FINAL - l.KM_ATUAL), ' Km') using utf8) 'Km total',
+    
+	concat('R$ ',(sum(l.KM_FINAL - l.KM_ATUAL)* tv.VL_KM_RODADO)) 'Valor total'
+
+from locacao l
+
+inner join veiculo v on v.id_veiculo = l.id_veiculo
+
+inner join modelo md on md.id_modelo = v.ID_MODELO
+
+inner join marca mc on mc.ID_MARCA = md.ID_MARCA
+
+inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.ID_TIPO_VEICULO
+
+group by tv.id_tipo_veiculo;

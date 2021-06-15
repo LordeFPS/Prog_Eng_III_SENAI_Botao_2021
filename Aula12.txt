@@ -1,0 +1,26 @@
+
+insert into veiculo (id_modelo, ano, id_cor, id_tipo_veiculo)
+
+values (1,2021,1,1),(2,2021,2,2),(3,2021,3,3),
+(4,2021,4,4),(5,2021,5,1),
+(6,2021,6,2),
+(7,2021,7,3),(8,2021,8,4),(9,2021,9,1),
+(10,2021,10,2);
+
+
+insert into locacao (id_cliente, datahora, km_atual, km_final, descricao, id_veiculo)
+
+values (1,now(),100,150, 'Limpo', 1),(2,now(),100,160, 'Limpo', 2),
+(3,now(),100,170, 'Limpo', 3),
+(4,now(),100,180, 'Limpo', 4),
+(5,now(),100,190, 'Limpo', 5),(6,now(),100,200, 'Limpo', 6),
+
+(7,now(),100,210, 'Limpo', 7),(8,now(),100,220, 'Limpo', 8),
+(9,now(),100,230, 'Limpo', 9),
+(10,now(),100,240, 'Limpo', 10),
+(11,now(),150,200, 'Limpo', 1),(12,now(),160,250, 'Limpo', 2),
+
+(13,now(),170,200, 'Limpo', 3),(14,now(),180,230, 'Limpo', 4),
+(15,now(),190,300, 'Limpo', 5);
+
+
