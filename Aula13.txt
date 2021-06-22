@@ -1,0 +1,213 @@
+Criando View para consultas
+--------------------------------------------------------------------------------------------------------------
+TEMOS DUAS FORMAS DE CRIAR UMA VIEW
+--------------------------------------------------------------------------------------------------------------
+View: letra A da Aula 12
+--------------------------------------------------------------------------------------------------------------
+CREATE 
+    
+	ALGORITHM = UNDEFINED 
+    
+	DEFINER = `root`@`localhost` 
+    
+	SQL SECURITY DEFINER
+
+VIEW `locacao_valor_km` AS
+    
+	SELECT 
+        
+		`c`.`NOME` AS `Cliente`,
+        
+		DATE_FORMAT(`l`.`DATAHORA`, '%d/%m/%Y') AS `data`,
+        
+		`mc`.`NOME` AS `Marca`,
+        
+		`md`.`NOME` AS `Modelo`,
+        
+		CONCAT(`l`.`KM_FINAL` - `l`.`KM_ATUAL`, ' KM') AS `KM Percorrido`,
+        
+		CONCAT('R$ ',(`l`.`KM_FINAL` - `l`.`KM_ATUAL`) * `tv`.`VL_KM_RODADO`) AS `Valor por KM`
+    
+	FROM
+        
+		(((((`locacao` `l`
+ JOIN `cliente` `c` ON (`c`.`ID_CLIENTE` = `l`.`ID_CLIENTE`))
+        
+		JOIN `veiculo` `v` ON (`v`.`ID_VEICULO` = `l`.`ID_VEICULO`))
+        
+		JOIN `modelo` `md` ON (`md`.`ID_MODELO` = `v`.`ID_MODELO`))
+        
+		JOIN `marca` `mc` ON (`mc`.`ID_MARCA` = `md`.`ID_MARCA`))
+        
+		JOIN `tipo_veiculo` `tv` ON (`tv`.`id_tipo_veiculo` = `v`.`ID_TIPO_VEICULO`))
+--------------------------------------------------------------------------------------------------------------
+ou
+--------------------------------------------------------------------------------------------------------------
+create or replace view locacao_valor_km as
+select 
+	
+	c.nome Cliente,
+    
+	date_format(l.DATAHORA,'%d/%m/%Y') data,
+    
+	mc.nome Marca,
+    
+	md.nome Modelo,
+    
+	concat((l.KM_FINAL - l.KM_ATUAL),' KM') 'KM Percorrido',
+    
+	concat('R$ ',((l.KM_FINAL - l.KM_ATUAL)*tv.VL_KM_RODADO)) 'Valor por KM'
+
+from locacao 
+l
+inner join cliente c on c.id_cliente = l.id_cliente
+
+inner join veiculo v on v.id_veiculo = l.id_veiculo
+
+inner join modelo md on md.id_modelo = v.ID_MODELO
+
+inner join marca mc on mc.ID_MARCA = md.ID_MARCA
+
+inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.id_tipo_veiculo;
+--------------------------------------------------------------------------------------------------------------
+Criar view de veiculo
+--------------------------------------------------------------------------------------------------------------
+create or replace view view_veiculo as
+
+select
+	
+	v.ID_VEICULO "Id Veiculo",
+    
+	mc.nome Marca,
+    
+	md.nome Modelo,
+    
+	v.ano Ano,
+    
+	tv.nome "Tipo Veiculo",
+    
+	c.nome Cor,
+    
+	tv.vl_km_rodado "Valor por KM"
+
+from veiculo v
+
+inner join modelo md on md.id_modelo = v.id_modelo
+
+inner join marca mc on mc.id_marca = md.id_marca
+
+inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.id_tipo_veiculo
+
+inner join cor c on c.id_cor = v.id_cor;
+--------------------------------------------------------------------------------------------------------------
+Executar view do veiculo
+
+select * from view_veiculo;
+--------------------------------------------------------------------------------------------------------------
+Exercicio 2 order por marca e modelo
+
+select * from view_veiculo vv order by vv.marca;
+
+select * from view_veiculo vv order by vv.modelo;
+--------------------------------------------------------------------------------------------------------------
+Exercicio 3 criar view de cidade
+create or replace view view_cidade as
+
+select
+	
+	c.id_cidade "Id cidade",
+    
+	c.nome Cidade,
+	
+	e.nome Estado,
+    
+	e.SIGLA Sigla
+
+from cidade c
+
+inner join estado e on e.id_estado = c.id_estado;
+--------------------------------------------------------------------------------------------------------------
+Executar view cidade
+
+select * from view_cidade;
+--------------------------------------------------------------------------------------------------------------
+Exercicio 4 exibir cidades de Santa Catarina ordenadas pelo nome decrescente
+
+select * from view_cidade vc where vc.sigla = lower('SC') order by vc.cidade;
+--------------------------------------------------------------------------------------------------------------
+Ecxercicio 5 exiba a quantidade de cidades por estado na view cidade
+
+select vc.sigla, count(*) "Numero de Cidades"  from view_cidade vc group by vc.sigla;
+--------------------------------------------------------------------------------------------------------------
+Exercicio 6 consulta para listar a qtd de carros por marca e modelo usandoa view veiculo
+
+select vv.marca, vv.modelo, count(*) "Qtd Marcas"  
+from view_veiculo vv group by vv.marca, vv.modelo;
+--------------------------------------------------------------------------------------------------------------
+Exercicio 7 consulta para listar a qtd de carros de uma
+
+select 
+	
+	vv.marca, 
+	
+	vv.modelo, 
+	
+	vv.cor,	
+	
+	count(*) "Qtd Marcas"  
+
+from view_veiculo vv 
+
+group by vv.marca, vv.modelo, vv.cor;
+--------------------------------------------------------------------------------------------------------------
+Exercicio 8 listar qtd de clientes que sejam da mesma cidade
+
+
+select 
+	vc.cidade, 
+	count(*) 
+from view_cidade vc 
+inner join cliente c on c.id_cidade = vc.id_cidade 
+group by vc.cidade;
+--------------------------------------------------------------------------------------------------------------
+Ecercicio 9 buscar as 10 primeiras ciadades cadastradas em ordem alfabetica
+
+
+select * 
+from cidade c order by c.nome limit 10;
+--------------------------------------------------------------------------------------------------------------
+(Terminar)Exercicio 10 consulta para buscar todos os clientes que possuam a letra "F" no seu nome,
+
+que sejam do estado de Santa Catarina e que tenham pelo menos duas locações
+
+
+select 
+	
+	c.id_cliente Id,
+	
+	c.nome Nome,
+    
+	cd.nome Cidade,
+    
+	e.sigla Sigla,
+    
+	count(l.id_locacao) "Locação"
+
+from cliente c 
+
+inner join locacao l on l.id_cliente = c.id_cliente
+
+inner join cidade cd on cd.id_cidade = c.id_cidade
+
+inner join estado e on e.id_estado = cd.id_estado
+
+where c.nome like lower("%f%")
+
+and e.sigla = lower('SC');
+--------------------------------------------------------------------------------------------------------------
+(Fazer)Exerecicio 11 consulta para buscar todos os cliente q tenham mais de 3 locacoes de veiculos
+
+
+select *
+ from view_locacao vl;
+
