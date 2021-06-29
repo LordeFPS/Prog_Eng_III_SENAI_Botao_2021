@@ -1,98 +1,50 @@
-Criando View para consultas
---------------------------------------------------------------------------------------------------------------
-TEMOS DUAS FORMAS DE CRIAR UMA VIEW
---------------------------------------------------------------------------------------------------------------
-View: letra A da Aula 12
---------------------------------------------------------------------------------------------------------------
-CREATE 
-	ALGORITHM = UNDEFINED 
-	DEFINER = `root`@`localhost` 
-	SQL SECURITY DEFINER
-VIEW `locacao_valor_km` AS
-	SELECT        
-		`c`.`NOME` AS `Cliente`,       
-		DATE_FORMAT(`l`.`DATAHORA`, '%d/%m/%Y') AS `data`,        
-		`mc`.`NOME` AS `Marca`,        
-		`md`.`NOME` AS `Modelo`,        
-		CONCAT(`l`.`KM_FINAL` - `l`.`KM_ATUAL`, ' KM') AS `KM Percorrido`,        
-		CONCAT('R$ ',(`l`.`KM_FINAL` - `l`.`KM_ATUAL`) * `tv`.`VL_KM_RODADO`) AS `Valor por KM`   
-	FROM       
-		(((((`locacao` `l`
- JOIN `cliente` `c` ON (`c`.`ID_CLIENTE` = `l`.`ID_CLIENTE`))        
-		JOIN `veiculo` `v` ON (`v`.`ID_VEICULO` = `l`.`ID_VEICULO`))       
-		JOIN `modelo` `md` ON (`md`.`ID_MODELO` = `v`.`ID_MODELO`))       
-		JOIN `marca` `mc` ON (`mc`.`ID_MARCA` = `md`.`ID_MARCA`))       
-		JOIN `tipo_veiculo` `tv` ON (`tv`.`id_tipo_veiculo` = `v`.`ID_TIPO_VEICULO`))
---------------------------------------------------------------------------------------------------------------
-ou
---------------------------------------------------------------------------------------------------------------
-create or replace view view_locacao as
-select 	
-	ifnull(l.id_locacao, '-') id,
-	ifnull(c.nome, '-') Cliente,  
-	ifnull(date_format(l.DATAHORA,'%d/%m/%Y'),'00/00/0000') data,   
-	mc.nome Marca,   
-	md.nome Modelo,   
-	concat(ifnull((l.KM_FINAL - l.KM_ATUAL),0),' KM') KM_Percorrido,   
-	concat('R$ ',(ifnull(((l.KM_FINAL - l.KM_ATUAL)*tv.VL_KM_RODADO), 0))) Valor_Pago,
-    	tv.nome tipo_veiculo
-from locacao l
-right join cliente c on c.id_cliente = l.id_cliente
-right join veiculo v on v.id_veiculo = l.id_veiculo
-right join modelo md on md.id_modelo = v.ID_MODELO
-right join marca mc on mc.ID_MARCA = md.ID_MARCA
-inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.id_tipo_veiculo;
---------------------------------------------------------------------------------------------------------------
-Criar view de veiculo
+Exercicio 1 Crie uma view chamada "VIEW_VEICULO" com os seguintes campos:
+	   | id_veiculo | marca | modelo | ano | tipo | cor | valor_km_rodado
 
 create or replace view view_veiculo as
 select	
-	v.ID_VEICULO "Id Veiculo",   
+	v.ID_VEICULO id,   
 	mc.nome Marca,    
 	md.nome Modelo,    
 	v.ano Ano,
-	tv.nome "Tipo Veiculo",
+	tv.nome tipo_veiculo,
 	c.nome Cor,
-	tv.vl_km_rodado "Valor por KM"
+	tv.vl_km_rodado valor_por_km
 from veiculo v
 inner join modelo md on md.id_modelo = v.id_modelo
 inner join marca mc on mc.id_marca = md.id_marca
 inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.id_tipo_veiculo
 inner join cor c on c.id_cor = v.id_cor;
 --------------------------------------------------------------------------------------------------------------
-Executar view do veiculo
-
-select * from view_veiculo;
---------------------------------------------------------------------------------------------------------------
-Exercicio 2 order por marca e modelo
+Exercicio 2 Crie uma consulta que exiba os ve√≠culos cadastrados, ordenados por marca e modelo
+utilizando a ‚ÄúVIEW_VEICULO‚Äù
 
 select * from view_veiculo vv order by vv.marca,vv.modelo;
 
 --------------------------------------------------------------------------------------------------------------
-Exercicio 3 criar view de cidade
+Exercicio 3 Crie uma view chamada ‚ÄúVIEW_CIDADE‚Äù com os seguintes campos:
+	    | id_cidade | nome cidade | nome estado | sigla do estado | 
 
 create or replace view view_cidade as
 select
-	c.id_cidade "Id cidade",
+	c.id_cidade id,
 	c.nome Cidade,
 	e.nome Estado,
 	e.SIGLA Sigla
 from cidade c
 inner join estado e on e.id_estado = c.id_estado;
 --------------------------------------------------------------------------------------------------------------
-Executar view cidade
-
-select * from view_cidade;
---------------------------------------------------------------------------------------------------------------
-Exercicio 4 exibir cidades de Santa Catarina ordenadas pelo nome decrescente
+Exercicio 4 Crie uma consulta que exiba as cidades de Santa Catarina, ordenadas pelo nome em ordem
+decrescente.
 
 select * from view_cidade vc where vc.sigla = lower('SC') order by vc.cidade;
 --------------------------------------------------------------------------------------------------------------
-Ecxercicio 5 exiba a quantidade de cidades por estado na view cidade
+Ecxercicio 5 Crie uma consulta que exiba a quantidade de cidades cadastradas para cada estado, com
+base na ‚ÄúVIEW_CIDADE‚Äù
 
 select vc.sigla, count(*) "Numero de Cidades"  from view_cidade vc group by vc.sigla;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 6 consulta para listar a qtd de carros por marca e modelo usandoa view veiculo
+Exercicio 6 Crie uma consulta para listar a quantidade carros de uma mesma marca e modelo.
 
 select 
 	vv.marca, 
@@ -100,7 +52,7 @@ select
 	count(vv.marca) "Qtd Carros"  
 from view_veiculo vv group by vv.marca, vv.modelo;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 7 consulta para listar a qtd de carros de uma
+Exercicio 7 Crie uma consulta para listar a quantidade carros de uma mesma marca, modelo e cor.
 
 select
 	vv.marca, 
@@ -108,10 +60,9 @@ select
 	vv.cor,	
 	count(*) "Qtd Marcas"  
 from view_veiculo vv 
-
 group by vv.marca, vv.modelo, vv.cor;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 8 listar qtd de clientes que sejam da mesma cidade
+Exercicio 8 Crie uma consulta para listar a quantidade de clientes que sejam da mesma cidade.
 
 select 
 	vc.cidade, 
@@ -120,14 +71,16 @@ from view_cidade vc
 inner join cliente c on c.id_cidade = vc.id 
 group by vc.cidade;
 --------------------------------------------------------------------------------------------------------------
-Ecercicio 9 buscar as 10 primeiras ciadades cadastradas em ordem alfabetica
+Ecercicio 9 Crie uma consulta para buscar as 10 primeiras cidades cadastradas em ordem alfab√©tica.
+(limit 10)
 
 select 
 	c.nome
 from cidade c order by c.nome limit 10;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 10 consulta para buscar todos os clientes que possuam a letra "F" no seu nome,
-que sejam do estado de Santa Catarina e que tenham pelo menos duas locaÁıes
+Exercicio 10 Crie uma consulta para buscar todos os clientes que possuam a letra ‚ÄúF‚Äù no seu nome, que
+sejam do estado de Santa Catarina e que tenham pelo menos duas loca√ß√µes de ve√≠culos.
+
 select 
 	c.id_cliente Id,
 	c.nome Nome,
@@ -142,7 +95,7 @@ where c.nome like lower("%f%")
 and e.sigla like 'SC'
 having locacao >=2;
 --------------------------------------------------------------------------------------------------------------
-Exerecicio 11 consulta para buscar todos os cliente q tenham mais de 3 locacoes de veiculos
+Exerecicio 11 Crie uma consulta para buscar todos os clientes que tenham mais de 03 loca√ß√µes de ve√≠culos.
 
 select 
 	c.id_cliente Id,
@@ -157,9 +110,9 @@ inner join estado e on e.id_estado = cd.id_estado
 group by c.id_cliente
 having locacao >= 3;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 12 Crie uma consulta para buscar todos os clientes que n„o tenham nenhuma locaÁ„o de
-veÌculo.
-* Use uma sub consulta na cl·usula where com id_cliente not in (select id_cliente from ....)
+Exercicio 12 Crie uma consulta para buscar todos os clientes que n√£o tenham nenhuma loca√ß√£o de
+ve√≠culo.
+* Use uma sub consulta na cl√°usula where com id_cliente not in (select id_cliente from ....)
 
 select 
 	c.id_cliente Id,
@@ -174,7 +127,7 @@ inner join estado e on e.id_estado = cd.id_estado
 group by c.id_cliente
 having locacao = 0;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 13 Crie uma consulta para buscar os carros que n„o tenham sido utilizados em nenhuma locaÁ„o
+Exercicio 13 Crie uma consulta para buscar os carros que n√£o tenham sido utilizados em nenhuma loca√ß√£o
 
 select 
 	vv.marca,
@@ -185,7 +138,7 @@ left join locacao l on vv.id = l.id_veiculo
 group by vv.id
 having locacao = 0;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 14 Crie uma consulta para listar as quilometragens totais percorridas por cada veÌculo.
+Exercicio 14 Crie uma consulta para listar as quilometragens totais percorridas por cada ve√≠culo.
 
 select 
 	vv.marca,
@@ -214,10 +167,10 @@ select
     	concat(sum(vl.km_percorrido),' km') km_rodado
 from view_locacao vl
 group by vl.modelo
-order by km_rodado asc
+order by sum(vl.km_percorrido) asc
 limit 3;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 17 Crie uma consulta para listar os clientes que percorreram a maior quantidade de quilÙmetros
+Exercicio 17 Crie uma consulta para listar os clientes que percorreram a maior quantidade de quil√¥metros
 
 select 
 	vl.cliente,
@@ -227,7 +180,7 @@ group by vl.cliente
 order by sum(vl.km_percorrido) desc;
 
 --------------------------------------------------------------------------------------------------------------
-Exercicio 18 Crie uma consulta para listar os clientes que percorreram a menor quantidade de quilÙmetros
+Exercicio 18 Crie uma consulta para listar os clientes que percorreram a menor quantidade de quil√¥metros
 
 select 
 	vl.cliente,
@@ -236,7 +189,7 @@ from view_locacao vl
 group by vl.cliente
 order by sum(vl.km_percorrido) asc;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 19 Crie uma consulta para listar os valores pagos em todas as locaÁıes para cada tipo de veÌculo
+Exercicio 19 Crie uma consulta para listar os valores pagos em todas as loca√ß√µes para cada tipo de ve√≠culo
 
 select 	
 	tv.nome tipo_veiculo,
@@ -249,7 +202,7 @@ right join marca mc on mc.ID_MARCA = md.ID_MARCA
 inner join tipo_veiculo tv on tv.id_tipo_veiculo = v.id_tipo_veiculo
 group by tv.nome;
 --------------------------------------------------------------------------------------------------------------
-Exercicio 20 Crie uma consulta para listar os totais de quilÙmetros percorridos por cada tipo de veÌculo
+Exercicio 20 Crie uma consulta para listar os totais de quil√¥metros percorridos por cada tipo de ve√≠culo
 
 select 	
     	tv.nome tipo_veiculo,
