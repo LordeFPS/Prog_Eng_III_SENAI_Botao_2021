@@ -1,0 +1,193 @@
+/* Consulta 1 */
+select
+	ofc.officeCode Id,
+    ofc.country,
+    ofc.state,
+    ofc.city cidade,
+    ofc.postalCode,
+    ofc.phone,
+    ofc.addressLine1,
+    ofc.addressLine2,
+    ofc.territory
+from offices ofc
+where ofc.country like 'USA'
+order by ofc.city asc;
+
+/* Consulta 2 */
+select
+	ofc.officeCode Id,
+    ofc.country,
+    ofc.state,
+    ofc.city cidade,
+    ofc.postalCode,
+    ofc.phone,
+    ofc.addressLine1,
+    ofc.addressLine2,
+    ofc.territory
+from offices ofc
+where ofc.country not like 'USA'
+order by ofc.city desc;
+
+/* Consulta 3 */
+desc customers;
+select
+	ct.customerName name,
+	ct.phone,
+    ct.state,
+    ct.city cidade,
+    od.orderNumber
+from customers ct
+left join orders od on od.customerNumber = ct.customerNumber
+where od.orderNumber is null;
+
+/* Consulta 4 */
+select
+	ct.customerName name,
+	ct.phone,
+    ct.state,
+    ct.city cidade,
+    od.orderNumber,
+    ct.creditLimit
+from customers ct
+inner join orders od on od.customerNumber = ct.customerNumber
+inner join payments py on py.customerNumber = ct.customerNumber
+where  ct.creditLimit > 100000
+and ct.state like 'CA'
+and ct.country like 'USA'
+and ct.customerName like '%Co%'
+group by ct.customerName;
+
+/* Consulta 5 */
+select
+	concat("Custumers who don't have orders") Description,
+	count(ct.customerName) Qtde
+from customers ct
+left join orders od on od.customerNumber = ct.customerNumber
+where od.orderNumber is null
+group by od.customerNumber;
+
+/* Consulta 6 ordenado por cliente*/
+select
+	ct.customerName,
+    od.status,
+    count(od.status) Qtde
+from customers ct
+left join orders od on od.customerNumber = ct.customerNumber
+where od.status is not null
+group by ct.customerName, od.status
+order by ct.customerName asc;
+
+/* Consulta 6 ordenado por status */
+select
+    od.status,
+    count(od.status) Qtde
+from customers ct
+left join orders od on od.customerNumber = ct.customerNumber
+group by od.status
+order by od.status asc;
+
+
+/* Consulta 7 */
+select
+	od.orderNumber,
+	ct.customerName,
+    od.status,
+    date_format(od.orderDate,'%d/%m/%Y') Date
+from customers ct
+left join orders od on od.customerNumber = ct.customerNumber
+where od.status not like 'Shipped'
+and od.status not like 'In Process'
+group by ct.customerName, od.status
+order by od.orderNumber asc;
+
+/* Consulta 8 */
+select
+	pd.productName,
+    pd.productLine,
+    pd.quantityInStock,
+    concat('$ ', pd.buyPrice) Price,
+    concat('$ ',(pd.buyPrice * pd.quantityInStock)) Price_Stock
+from products pd
+where pd.quantityInStock < 5000
+and pd.buyPrice > 50
+and (pd.buyPrice * pd.quantityInStock) > 100000
+and pd.productLine like 'Classic Cars';
+
+/* Consulta 9 */
+select 
+	od.orderNumber,
+    date_format(od.orderDate,'%d/%m/%Y') Date,
+    ct.customerName,
+    pd.productName,
+    concat('$ ', (odt.quantityOrdered * odt.priceEach)) Price,
+    odt.priceEach,
+    odt.quantityOrdered
+from orders od
+inner join customers ct on ct.customerNumber = od.customerNumber
+inner join orderdetails odt on odt.orderNumber = od.orderNumber
+inner join products pd on pd.productCode = odt.productCode
+where od.orderNumber = 10123;
+
+/* Consulta 10 */
+select 
+	od.orderNumber,
+    date_format(od.orderDate,'%d/%m/%Y') Date,
+    ct.customerName,
+    concat('$ ', sum((odt.quantityOrdered * odt.priceEach) )*1) Total_Price
+from orders od
+inner join customers ct on ct.customerNumber = od.customerNumber
+inner join orderdetails odt on odt.orderNumber = od.orderNumber
+inner join products pd on pd.productCode = odt.productCode
+where od.orderNumber = 10124
+group by ct.customerName;
+
+/* Consulta 11 */
+select 
+	od.orderNumber,
+    ct.customerName,
+    concat('$ ', (odt.quantityOrdered * odt.priceEach)) Total_Price
+from orders od
+inner join customers ct on ct.customerNumber = od.customerNumber
+inner join orderdetails odt on odt.orderNumber = od.orderNumber
+inner join products pd on pd.productCode = odt.productCode
+group by ct.customerName
+order by (odt.quantityOrdered * odt.priceEach) desc
+limit 20;
+
+/* Consulta 12 */
+select 
+	od.orderNumber,
+    ct.customerName,
+    concat('$ ', (odt.quantityOrdered * odt.priceEach)) Total_Price
+from orders od
+inner join customers ct on ct.customerNumber = od.customerNumber
+inner join orderdetails odt on odt.orderNumber = od.orderNumber
+inner join products pd on pd.productCode = odt.productCode
+group by ct.customerName
+order by (odt.quantityOrdered * odt.priceEach) asc
+limit 20;
+
+/* Consulta 13 */
+select 
+    ct.customerName,
+    ct.phone,
+    concat('$ ', (odt.quantityOrdered * odt.priceEach)) Total_Price
+from orders od
+inner join customers ct on ct.customerNumber = od.customerNumber
+inner join orderdetails odt on odt.orderNumber = od.orderNumber
+inner join products pd on pd.productCode = odt.productCode
+group by ct.customerName
+order by (odt.quantityOrdered * odt.priceEach) desc
+limit 20;
+
+/* Consulta 14 */
+select 
+	emp.employeeNumber,
+    concat(emp.firstName,' ',emp.lastName) Name,
+    emp.email,
+    emp.jobTitle,
+    emp.reportsTo /* Anthony Bow = 1143*/
+from employees emp
+where emp.reportsTo = 1143
+order by concat(emp.firstName,' ',emp.lastName) asc;
+
